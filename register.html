@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+
+    <link rel="stylesheet" href="./style.css">
+    <!-- Boxicons css -->
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+</head>
+<body>
+    <section id="register">
+        <!-- Login modal -->
+        <form method="post" action="">
+            <h1>Register</h1>
+            <p>Please enter your details to register your account</p>
+            <br>
+            <div class="input-content">
+                <!-- Username input -->
+                <div>
+                    <i class='bx bxs-user'></i>
+                    <input type="text" placeholder="Username" name="username" required minlength="3" maxlength="15" pattern="[A-Za-z0-9\S]+">
+                </div>
+                <!-- Password input -->
+                <div>
+                    <i class='bx bxs-lock-alt' ></i>
+                    <input type="password" placeholder="Password" name="password" required minlength="8" maxlength="20">
+                </div>
+                <!-- Reinput password -->
+                <div>
+                    <i class='bx bxs-lock-alt' ></i>
+                    <input type="password" placeholder="Re-enter Password" name="repassword" required minlength="8" maxlength="20">
+                </div>
+            </div>
+            <br>
+            <br>
+            <!-- Register button -->
+            <button type="submit" name="register-btn" id="register-btn">Register</button>
+            <!-- Ask for account -->
+            <p>
+                Already have account? 
+                <a href="./login.php">Click here</a>
+            </p>
+            <br>
+            <br>
+        </form>
+    </section>
+</body>
+</html>

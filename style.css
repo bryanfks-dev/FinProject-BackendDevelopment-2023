@@ -1,0 +1,233 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    border: none;
+    box-sizing: border-box;
+    list-style: none;
+    text-decoration: none;
+    font-family: "Poppins";
+}
+
+html {
+    overflow: hidden;
+}
+
+body {
+    user-select: none;
+}
+
+/* Register */
+#register {
+    background-color: #f8f8f8;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#register form {
+    background-color: #ffffff;
+    border-radius: 1.875em;
+    -webkit-border-radius: 1.875em;
+    -moz-border-radius: 1.875em;
+    -ms-border-radius: 1.875em;
+    -o-border-radius: 1.875em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#register form h1 {
+    margin-top: 2rem;
+}
+
+#register form > p:first-of-type {
+    width: 80%;
+    text-align: center;
+}
+
+#register form .input-content {
+    width: 80%;
+}
+
+#register form .input-content > div {
+    position: relative;
+    margin-bottom: 1.5em;
+}
+
+#register form .input-content > div i {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    -webkit-transform: translateY(-50%);
+    -moz-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    -o-transform: translateY(-50%);
+    margin-left: .7rem;
+}
+
+#register form .input-content input {
+    padding: .4rem .5rem .4rem 2rem;
+    background-color: #f5f7fa;
+    border: 2px solid #000000;
+    border-radius: .4rem;
+    width: 100%;
+    -webkit-border-radius: .4rem;
+    -moz-border-radius: .4rem;
+    -ms-border-radius: .4rem;
+    -o-border-radius: .4rem;
+}
+
+#register form .input-content input:focus {
+    outline: none;
+}
+
+#register form button {
+    background-color: #803AD0;
+    color: #ffffff;
+    font-size: 1em;
+    width: 80%;
+    border-radius: 3.125em;
+    -webkit-border-radius: 3.125em;
+    -moz-border-radius: 3.125em;
+    -ms-border-radius: 3.125em;
+    -o-border-radius: 3.125em;
+    padding: .4em;
+}
+
+#register form p:last-of-type {
+    margin-top: .5rem;
+    text-align: center;
+    font-size: smaller;
+    color: #000000;
+}
+
+#register form p:last-of-type a {
+    color: #000000;
+    font-weight: 700;
+    text-decoration: underline;
+}
+
+/* Login */
+#login {
+    background-color: #f8f8f8;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#login form {
+    background-color: #ffffff;
+    border-radius: 1.875em;
+    -webkit-border-radius: 1.875em;
+    -moz-border-radius: 1.875em;
+    -ms-border-radius: 1.875em;
+    -o-border-radius: 1.875em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#login form h1 {
+    margin-top: 2rem;
+}
+
+#login form > p:first-of-type {
+    width: 80%;
+    text-align: center;
+}
+
+#login form .input-content {
+    width: 80%;
+}
+
+#login form .input-content > div {
+    position: relative;
+    margin-bottom: 1.5em;
+}
+
+#login form .input-content > div i:not(#login form .input-content > div:last-of-type i:last-of-type) {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    -webkit-transform: translateY(-50%);
+    -moz-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    -o-transform: translateY(-50%);
+    margin-left: .7rem;
+}
+
+#login form .input-content > div:last-of-type i:last-of-type {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    -webkit-transform: translateY(-50%);
+    -moz-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    -o-transform: translateY(-50%);
+    margin-right: .7rem;
+    cursor: pointer;
+}
+
+#login form .input-content input {
+    padding: .4rem .5rem .4rem 2rem;
+    background-color: #f5f7fa;
+    border: 2px solid #000000;
+    border-radius: .4rem;
+    width: 100%;
+    -webkit-border-radius: .4rem;
+    -moz-border-radius: .4rem;
+    -ms-border-radius: .4rem;
+    -o-border-radius: .4rem;
+}
+
+#login form .input-content input:focus {
+    outline: none;
+}
+
+#login form .keep-me-login-box {
+    width: 80%;
+    display: flex;
+    gap: .6em;
+    align-items: center;
+}
+
+#login form .keep-me-login-box input {
+    width: 1.15em;
+    height: 1.15em;
+    cursor: pointer;
+}
+
+#login form button {
+    background-color: #803AD0;
+    color: #ffffff;
+    font-size: 1em;
+    width: 80%;
+    border-radius: 3.125em;
+    -webkit-border-radius: 3.125em;
+    -moz-border-radius: 3.125em;
+    -ms-border-radius: 3.125em;
+    -o-border-radius: 3.125em;
+    padding: .4em;
+}
+
+#login form p:last-of-type {
+    margin-top: .5rem;
+    text-align: center;
+    font-size: smaller;
+    color: #000000;
+}
+
+#login form p:last-of-type a {
+    color: #000000;
+    font-weight: 700;
+    text-decoration: underline;
+}
