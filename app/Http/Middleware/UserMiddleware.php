@@ -16,9 +16,15 @@ class UserMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        // Redirect admin to dashboard
-        if (Auth::user()->is_admin) {
-            return redirect()->intended('/dashboard');
+        // Check if user exist
+        if (!is_null(Auth::user())) {
+            // Redirect admin to dashboard
+            if (Auth::user()->is_admin) {
+                return redirect('/dashboard');
+            }
+        }
+        else {
+            return redirect('/login');
         }
 
         return $next($request);

@@ -44,9 +44,11 @@ Route::group(['middleware' => 'guest'], function() {
 });
 
 // Market page
-Route::get('/market', [MarketController::class, 'view'])->name('market');
+Route::get(['prefix' => '/market'], function() {
+    Route::get('/', [MarketController::class, 'view'])->name('market');
 
-Route::get('/market/add/{id}', [MarketController::class, 'add_to_cart'])->middleware('user');
+    Route::get('/add/{id}', [MarketController::class, 'add_to_cart'])->middleware('user');
+});
 
 // Shopping cart page
 Route::get('/cart', [ShoppingCartController::class, 'view'])->middleware(['auth', 'user']);
