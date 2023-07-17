@@ -1,10 +1,10 @@
 <tr>
-    {{
-        // Delete order if product stock is 0
-        if ($products->find($order->product_id)->stock === 0) {
+    @if($products->find($order->product_id)->stock === 0)
+        @php
+            // Delete order if product stock is 0
             (App\Http\Controllers\ShoppingCartController)::delete_order($order->id);
-        }
-    }}
+        @endphp
+    @endif
     <td>
         <div><div style="background-image: url('{{url('storage/product_img', $products->find($order->product_id)->image)}}"></div></div>
         <p>{{$products->find($order->product_id)->name}}</p>

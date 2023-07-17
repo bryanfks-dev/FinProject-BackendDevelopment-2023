@@ -9,7 +9,7 @@
     <div class="desc">{{$product->description}}</div>
     <div class="stock-add">
         <span>Stock: {{$product->stock}}</span>
-        <a href="{{url('market/add', $product->id)}}">
+        <a href="{{url('add', $product->id)}}">
             <i class='bx bx-plus'></i>
         </a>
     </div>

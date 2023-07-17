@@ -95,13 +95,13 @@ Route::group(['middleware' => 'admin'], function() {
 
     // Incoming invoice page
     Route::group(['prefix' => 'incoming_invoice'], function() {
-        Route::get('/incoming_invoice', [IncomingInvoiceController::class, 'view']);
+        Route::get('/', [IncomingInvoiceController::class, 'view']);
 
-        Route::get('/incoming_invoice/view/{id}', [IncomingInvoiceController::class, 'view_invoice']);
+        Route::get('/sort/{by}', [IncomingInvoiceController::class, 'sort_invoice']);
 
-        Route::get('/incoming_invoice/sort/{by}', [IncomingInvoiceController::class, 'sort_invoice']);
+        Route::get('/search', [IncomingInvoiceController::class, 'search_invoice']);
 
-        Route::get('/incoming_invoice/search', [IncomingInvoiceController::class, 'search_invoice']);
+        Route::get('/view/{id}', [IncomingInvoiceController::class, 'view_invoice']);
     });
 });
 

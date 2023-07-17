@@ -65,6 +65,9 @@ class InvoiceController extends Controller
         $invoice = Invoice::find($id);
 
         $invoice->delete();
+
+        // Redirect user to market
+        return redirect()->intended('/');
     }
 
     // Method for submiting invoice logic
@@ -114,6 +117,18 @@ class InvoiceController extends Controller
         // Put content into invoice_pdf folder
         Storage::put('public/invoice_pdf/'.$invoice[0]->id.'.pdf', $content);
 
+        // Delete user orders
+        // Get user id
+        $user_id = Auth::user()->id;
+
+        // Fetch products from user shopping cart
+        $orders = Cart::where('user_id', 'LIKE', "%$user_id%")->get();
+
+        // Delete orders
+        foreach($orders as $order) {
+            $order->delete();
+        }
+
         // Update invoice status
         $invoice = Invoice::find($id);
 
@@ -121,60 +136,8 @@ class InvoiceController extends Controller
 
         // Save invoice changes
         $invoice->save();
-    }
 
-    // Method for proceed invoice logic
-    public function proceed_invoice($action, $id) {
-        // Check if action is cancel invoice
-        if (strcmp("cancel", $action) === 0) {
-            // Store product stock back
-            // Get user id
-            $user_id = Auth::user()->id;
-
-            // Fetch products from user shopping cart
-            $orders = Cart::where('user_id', 'LIKE', "%$user_id%")->get();
-
-            foreach($orders as $order) {
-                $product = Product::find($order->product_id);
-
-                $product->stock += $order->quantity;
-
-                $product->save();
-
-                $order->delete();
-            }
-
-            // Delete invoice
-            $invoice = Invoice::find($id);
-
-            $invoice->delete();
-        }
-        // Submit action
-        else {
-            $this->download_as_pdf();
-
-            // Delete user orders
-            // Get user id
-            $user_id = Auth::user()->id;
-
-            // Fetch products from user shopping cart
-            $orders = Cart::where('user_id', 'LIKE', "%$user_id%")->get();
-
-            // Delete orders
-            foreach($orders as $order) {
-                $order->delete();
-            }
-
-            // Update invoice status
-            $invoice = Invoice::find($id);
-
-            $invoice->status = "submitted";
-
-            // Save invoice changes
-            $invoice->save();
-        }
-
-        // Redirect user to market page
-        return redirect('/market');
+        // Redirect user to market
+        return redirect()->intended('/');
     }
 }

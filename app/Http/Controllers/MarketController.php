@@ -66,13 +66,6 @@ class MarketController extends Controller
             // Add order quantity
             $exist_cart[0]->quantity++;
 
-            // Decrease product stock
-            $product = Product::find($id);
-            $product->stock--;
-
-            // Save changes
-            $product->save();
-
             $exist_cart[0]->save();
         }
         else{
@@ -83,13 +76,6 @@ class MarketController extends Controller
             $cart->user_id = Auth::user()->id;
             $cart->product_id = $id;
             $cart->quantity = 1;
-
-            // Decrease product stock
-            $product = Product::find($id);
-            $product->stock--;
-
-            // Save changes
-            $product->save();
 
             // Save order
             $cart->save();

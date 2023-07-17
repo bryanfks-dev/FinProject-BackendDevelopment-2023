@@ -22,8 +22,24 @@ class ShoppingCartController extends Controller
         ]);
     }
 
+    // Method for checking available invoice
+    private function check_invoice() {
+        // Get user id
+        $user_id = Auth::user()->id;
+
+        $invoice = Invoice::where('user_id', 'LIKE', "%$user_id%")->get();
+
+        // Check if available invoice is not empty
+        if (!$invoice->isEmpty()) {
+            // Redirect user to invoice page
+            return redirect('/invoice');
+        }
+    }
+
     // Method for increase quantity logic
     public function increase_quantity($id) {
+        $this->check_invoice();
+
         // Find order using it's id
         $order = Cart::find($id);
 
@@ -42,24 +58,34 @@ class ShoppingCartController extends Controller
 
     // Method for decrease quantity logic
     public function decrease_quantity($id) {
-        // Find order using it's id
-        $order = Cart::find($id);
+        // Get user id
+        $user_id = Auth::user()->id;
 
-        $product = Product::find($order->product_id);
+        $invoice = Invoice::where('user_id', 'LIKE', "%$user_id%")->get();
 
-        // Set order quantity to current product stock
-        // if order quantity greater than stock
-        if ($order->quantity > $product->stock) {
-            $order->quantity = $product->stock;
+        // Check if available invoice is empty
+        if ($invoice->isEmpty()) {
+            // Find order using it's id
+            $order = Cart::find($id);
+
+            $product = Product::find($order->product_id);
+
+            // Set order quantity to current product stock
+            // if order quantity greater than stock
+            if ($order->quantity > $product->stock) {
+                $order->quantity = $product->stock;
+            }
+            // Check if current product stock still less than order quantity and not 0
+            else if ($order->quantity <= $product->stock && $order->quantity - 1 >= 1) {
+                // Increase quantity
+                $order->quantity--;
+
+                // Update order
+                $order->save();
+            }
         }
-        // Check if current product stock still less than order quantity and not 0
-        else if ($order->quantity <= $product->stock && $order->quantity - 1 >= 1) {
-            // Increase quantity
-            $order->quantity--;
-
-            // Update order
-            $order->save();
-        }
+        // Redirect user to invoice page
+        else return redirect('/invoice');
 
         // Redirect user back to cart page
         return redirect()->back();
@@ -67,6 +93,8 @@ class ShoppingCartController extends Controller
 
     // Method for delete order logic
     public function delete_order($id) {
+        $this->check_invoice();
+
         // Find orde using it's id
         $order = Cart::find($id);
 
@@ -84,7 +112,7 @@ class ShoppingCartController extends Controller
 
         // Check for existing invoice
         $exist_invoice = Invoice::where('user_id', 'LIKE', "%$user_id%")->where('status', 'LIKE', "%pending%")->get();
-        
+
         if ($exist_invoice->isEmpty()) {
             // Get user id
             $user_id = Auth::user()->id;
@@ -121,18 +149,6 @@ class ShoppingCartController extends Controller
                 'date' => date("Y-m-d H:i:s"),
                 'status' => "pending"
             ]);
-
-            // Delete user orders
-            // Get user id
-            $user_id = Auth::user()->id;
-
-            // Fetch products from user shopping cart
-            $orders = Cart::where('user_id', 'LIKE', "%$user_id%")->get();
-
-            // Delete orders
-            foreach($orders as $order) {
-                $order->delete();
-            }
         }
 
         // Redirect user to invoice page
