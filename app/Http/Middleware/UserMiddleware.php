@@ -18,12 +18,13 @@ class UserMiddleware
     {
         // Check if user exist
         if (!is_null(Auth::user())) {
-            // Redirect admin to dashboard
+            // Redirect admin to dashboard page
             if (Auth::user()->is_admin) {
                 return redirect('/dashboard');
             }
         }
         else {
+            // Redirect user to login page
             return redirect('/login');
         }
 

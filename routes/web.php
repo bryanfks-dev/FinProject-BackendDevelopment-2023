@@ -29,14 +29,14 @@ Route::get('/', [HomePathController::class, 'view']);
 
 Route::group(['middleware' => 'guest'], function() {
     // Register page
-    Route::group(['prefix' => '/register'], function() {
+    Route::group(['prefix' => 'register'], function() {
         Route::get('/register', [RegisterController::class, 'view']);
 
         Route::post('/register', [RegisterController::class, 'create_user']);
     });
 
     // Login page
-    Route::group(['prefix' => '/login'], function() {
+    Route::group(['prefix' => 'login'], function() {
         Route::get('/login', [LoginController::class, 'view'])->name('login')->middleware('guest');
 
         Route::post('/login', [LoginController::class, 'auth'])->middleware('guest');
@@ -44,7 +44,7 @@ Route::group(['middleware' => 'guest'], function() {
 });
 
 // Market page
-Route::get(['prefix' => '/market'], function() {
+Route::group(['prefix' => 'market'], function() {
     Route::get('/', [MarketController::class, 'view'])->name('market');
 
     Route::get('/add/{id}', [MarketController::class, 'add_to_cart'])->middleware('user');
