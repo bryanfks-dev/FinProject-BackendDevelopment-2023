@@ -27,18 +27,21 @@ use Illuminate\Support\Facades\Route;
 // Default path page
 Route::get('/', [HomePathController::class, 'view']);
 
-// Register page
-Route::group(['prefix' => '/register',
-            'middleware' => 'guest'], function() {
-    Route::get('/register', [RegisterController::class, 'view']);
+Route::group(['middleware' => 'guest'], function() {
+    // Register page
+    Route::group(['prefix' => '/register'], function() {
+        Route::get('/register', [RegisterController::class, 'view']);
 
-    Route::post('/register', [RegisterController::class, 'create_user']);
+        Route::post('/register', [RegisterController::class, 'create_user']);
+    });
+
+    // Login page
+    Route::group(['prefix' => '/login'], function() {
+        Route::get('/login', [LoginController::class, 'view'])->name('login')->middleware('guest');
+
+        Route::post('/login', [LoginController::class, 'auth'])->middleware('guest');
+    });
 });
-
-// Login page
-Route::get('/login', [LoginController::class, 'view'])->name('login')->middleware('guest');
-
-Route::post('/login', [LoginController::class, 'auth'])->middleware('guest');
 
 // Market page
 Route::get('/market', [MarketController::class, 'view'])->name('market');
