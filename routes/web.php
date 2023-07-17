@@ -39,9 +39,9 @@ Route::group(['middleware' => 'guest'], function() {
 
     // Login page
     Route::group(['prefix' => 'login'], function() {
-        Route::get('/', [LoginController::class, 'view'])->name('login')->middleware('guest');
+        Route::get('/', [LoginController::class, 'view'])->name('login');
 
-        Route::post('/', [LoginController::class, 'auth'])->middleware('guest');
+        Route::post('/', [LoginController::class, 'auth']);
     });
 });
 

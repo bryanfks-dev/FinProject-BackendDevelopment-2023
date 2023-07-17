@@ -23,10 +23,6 @@ class UserMiddleware
                 return redirect('/dashboard');
             }
         }
-        else {
-            // Redirect user to login page
-            return redirect('/login');
-        }
 
         return $next($request);
     }
