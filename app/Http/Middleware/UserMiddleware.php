@@ -17,7 +17,7 @@ class UserMiddleware
     public function handle(Request $request, Closure $next): Response
     {
         // Check if user exist
-        if (!is_null(Auth::user())) {
+        if (Auth::user() !== null) {
             // Redirect admin to dashboard page
             if (Auth::user()->is_admin) {
                 return redirect('/dashboard');

@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Facades\Artisan;
+
 /* Controllers path */
 use App\Http\Controllers\HomePathController;
 use App\Http\Controllers\LoginController;
@@ -23,52 +25,62 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-/* User pages router */
-// Default path page
-Route::get('/', [HomePathController::class, 'view']);
+// Link storage
+Artisan::call('storage:link');
 
+/* User pages router */
 Route::group(['middleware' => 'guest'], function() {
     // Register page
     Route::group(['prefix' => 'register'], function() {
-        Route::get('/register', [RegisterController::class, 'view']);
+        Route::get('/', [RegisterController::class, 'view']);
 
-        Route::post('/register', [RegisterController::class, 'create_user']);
+        Route::post('/', [RegisterController::class, 'create_user']);
     });
 
     // Login page
     Route::group(['prefix' => 'login'], function() {
-        Route::get('/login', [LoginController::class, 'view'])->name('login')->middleware('guest');
+        Route::get('/', [LoginController::class, 'view'])->name('login')->middleware('guest');
 
-        Route::post('/login', [LoginController::class, 'auth'])->middleware('guest');
+        Route::post('/', [LoginController::class, 'auth'])->middleware('guest');
     });
 });
 
 // Market page
-Route::group(['prefix' => 'market'], function() {
+Route::group(['prefix' => '/'], function() {
     Route::get('/', [MarketController::class, 'view'])->name('market');
 
     Route::get('/add/{id}', [MarketController::class, 'add_to_cart'])->middleware('user');
 });
 
-// Shopping cart page
-Route::get('/cart', [ShoppingCartController::class, 'view'])->middleware(['auth', 'user']);
+Route::group(['middleware' => ['auth', 'user']], function() {
+    // Shopping cart page
+    Route::group(['prefix' => 'cart'], function() {
+        Route::get('/', [ShoppingCartController::class, 'view']);
 
-Route::get('/cart/drop/{id}', [ShoppingCartController::class, 'delete_order'])->middleware(['auth', 'user']);
+        Route::get('/min/{id}', [ShoppingCartController::class, 'decrease_quantity']);
 
-Route::get('/cart/{action}/{id}', [ShoppingCartController::class, 'update_quantity'])->middleware(['auth', 'user']);
+        Route::get('/plus/{id}', [ShoppingCartController::class, 'increase_quantity']);
 
-Route::get('/cart/proceed_order', [ShoppingCartController::class, 'proceed_order'])->middleware(['auth', 'user']);
+        Route::get('/drop/{id}', [ShoppingCartController::class, 'delete_order']);
 
-// Invoice page
-Route::get('/invoice', [InvoiceController::class, 'view'])->middleware(['auth', 'user']);
+        Route::get('/proceed_order', [ShoppingCartController::class, 'proceed_order']);
+    });
 
-Route::get('/invoice/{action}/{id}', [InvoiceController::class, 'proceed_invoice'])->middleware(['auth', 'user']);
+    // Invoice page
+    Route::group(['prefix' => 'invoice'], function() {
+        Route::get('/', [InvoiceController::class, 'view']);
+
+        Route::get('/cancel/{id}', [InvoiceController::class, 'cancel_invoice']);
+
+        Route::get('/submit/{id}', [InvoiceController::class, 'submit_invoice']);
+    });
+});
 
 /* Admin pages router */
 Route::group(['middleware' => 'admin'], function() {
     // Dashboard page
     Route::group(['prefix' => 'dashboard'], function() {
-        Route::get('/', [DashboardController::class, 'view']);
+        Route::get('/', [DashboardController::class, 'view'])->name('dashboard');
 
         Route::post('/add_item', [DashboardController::class, 'create_item']);
 

@@ -22,56 +22,43 @@ class ShoppingCartController extends Controller
         ]);
     }
 
-    // Method for update quantity logic
-    public function update_quantity($action, $id) {
-        // Get user id
-        $user_id = Auth::user()->id;
-
-        // Check for existing invoice
-        $exist_invoice = Invoice::where('user_id', 'LIKE', "%$user_id%")->where('status', 'LIKE', "%pending%")->get();
-
-        if (!$exist_invoice->isEmpty()) {
-            // Redirect user to invoice page
-            return redirect()->intended('/invoice');
-        }
-
+    // Method for increase quantity logic
+    public function increase_quantity($id) {
         // Find order using it's id
         $order = Cart::find($id);
 
-        // Check for action
-        if (strcmp("min", $action) === 0) {
-            // Check if next quantity value is not 0
-            if ($order->quantity - 1 !== 0) {
-                // Decrease quantity
-                $order->quantity--;
+        // Check if current product stock not 0
+        if ($order->quantity + 1 <= Product::find($order->product_id)->stock) {
+            // Increase quantity
+            $order->quantity++;
 
-                // Update order
-                $order->save();
-
-                // Update product
-                $product = Product::find($order->product_id);
-
-                $product->stock++;
-
-                $product->save();
-            }
+            // Update order
+            $order->save();
         }
-        else {
-            // Check if current product stock not 0
-            if (Product::find($order->product_id)->stock !== 0) {
-                // Increase quantity
-                $order->quantity++;
 
-                // Update order
-                $order->save();
+        // Redirect user back to cart page
+        return redirect()->back();
+    }
 
-                // Update product
-                $product = Product::find($order->product_id);
+    // Method for decrease quantity logic
+    public function decrease_quantity($id) {
+        // Find order using it's id
+        $order = Cart::find($id);
 
-                $product->stock--;
+        $product = Product::find($order->product_id);
 
-                $product->save();
-            }
+        // Set order quantity to current product stock
+        // if order quantity greater than stock
+        if ($order->quantity > $product->stock) {
+            $order->quantity = $product->stock;
+        }
+        // Check if current product stock still less than order quantity and not 0
+        else if ($order->quantity <= $product->stock && $order->quantity - 1 >= 1) {
+            // Increase quantity
+            $order->quantity--;
+
+            // Update order
+            $order->save();
         }
 
         // Redirect user back to cart page
@@ -80,29 +67,8 @@ class ShoppingCartController extends Controller
 
     // Method for delete order logic
     public function delete_order($id) {
-        // Check if there's user invoice with pending status
-        // Get user id
-        $user_id = Auth::user()->id;
-
-        // Check for existing invoice
-        $exist_invoice = Invoice::where('user_id', 'LIKE', "%$user_id%")->where('status', 'LIKE', "%pending%")->get();
-
-        if (!$exist_invoice->isEmpty()) {
-            // Redirect user to invoice page
-            return redirect()->intended('/invoice');
-        }
-
         // Find orde using it's id
         $order = Cart::find($id);
-
-        // Update product stock
-        $product = Product::find($order->product_id);
-
-        // Add product stock
-        $product->stock += $order->quantity;
-
-        // Save product changes
-        $product->save();
 
         // Delete order
         $order->delete();
@@ -113,10 +79,41 @@ class ShoppingCartController extends Controller
 
     // Method for proceed order logic
     public function proceed_order() {
-        // Check if there's no existing invoice with pending status
+        // Get user id
         $user_id = Auth::user()->id;
 
-        if (Invoice::where('user_id', 'LIKE', "%$user_id%")->where('status', 'LIKE', "%pending%")->get()->isEmpty()) {
+        // Check for existing invoice
+        $exist_invoice = Invoice::where('user_id', 'LIKE', "%$user_id%")->where('status', 'LIKE', "%pending%")->get();
+        
+        if ($exist_invoice->isEmpty()) {
+            // Get user id
+            $user_id = Auth::user()->id;
+
+            // Get user orders
+            $orders = Cart::where('user_id', 'LIKE', "%$user_id%")->get();
+
+            // Check if user order is empty
+            if ($orders->isEmpty()) {
+                // Redirect user back to cart page with no order status
+                return redirect()->back()->with("no_order", "status:no_order");
+            }
+
+            // Check for product stock and order quantity
+            foreach($orders as $order) {
+                if ($order->quantity > Product::find($order->product_id)->stock) {
+                    return redirect()->back()->with('insufficient_stock', 'status:insufficient_stock');
+                }
+            }
+
+            // Decrease product stock by quantity
+            foreach($orders as $order) {
+                $product = Product::find($order->product_id);
+
+                $product->stock -= $order->quantity;
+
+                $product->save();
+            }
+
             // Create invoice
             Invoice::create([
                 'name' => "Invoice INV/".Auth::user()->id."/".date('Ymd')."/".time(),
@@ -124,6 +121,18 @@ class ShoppingCartController extends Controller
                 'date' => date("Y-m-d H:i:s"),
                 'status' => "pending"
             ]);
+
+            // Delete user orders
+            // Get user id
+            $user_id = Auth::user()->id;
+
+            // Fetch products from user shopping cart
+            $orders = Cart::where('user_id', 'LIKE', "%$user_id%")->get();
+
+            // Delete orders
+            foreach($orders as $order) {
+                $order->delete();
+            }
         }
 
         // Redirect user to invoice page

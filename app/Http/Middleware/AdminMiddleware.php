@@ -16,9 +16,9 @@ class AdminMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        // Redirect user back to market page if not admin
-        if (!Auth::user()->is_admin) {
-            return redirect('/market');
+        if (Auth::user() === null || (Auth::user() !== null && !Auth::user()->is_admin)) {
+            // 403 => page forbidden
+            return abort(403);
         }
 
         return $next($request);

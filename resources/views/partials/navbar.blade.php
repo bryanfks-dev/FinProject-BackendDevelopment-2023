@@ -42,7 +42,7 @@
 </style>
 
 <nav>
-    <a href="/market">
+    <a href="/">
         <b>Joelbid's Furnishing</b>
     </a>
     {{-- Check if user is guest --}}

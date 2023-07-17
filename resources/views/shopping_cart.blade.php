@@ -59,6 +59,12 @@
         </script>
     @endif
 
+    @if (session()->has('insufficient_stock'))
+        <script type="text/javascript">
+            alert("There's a product with insufficient stock, please order other product");
+        </script>
+    @endif
+
     <!-- Total update js -->
     <script type="text/javascript">
         const quant = document.querySelectorAll("p.quantity");

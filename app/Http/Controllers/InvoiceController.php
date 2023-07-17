@@ -16,13 +16,17 @@ class InvoiceController extends Controller
     // Method to display user invoice page
     public function view() {
         $user_id = Auth::user()->id;
-        $orders = Cart::where('user_id', 'LIKE', "%$user_id%")->get();
 
-        // Check if user order is empty
-        if ($orders->isEmpty()) {
-            // Redirect user back to cart page with no order status
-            return redirect('/cart')->with("no_order", "status:no_order");
+        $invoice = Invoice::where('user_id', 'LIKE', "%$user_id%")->where('status', 'LIKE', "%pending%")->latest('id')
+                    ->get();
+
+        // Check if invoice is empty
+        if ($invoice->isEmpty()) {
+            // Redirect user back to shopping cart page
+            return redirect('/cart');
         }
+
+        $orders = Cart::where('user_id', 'LIKE', "%$user_id%")->get();
 
         // Function to format money
         Blade::directive('currency', function($amount) {
@@ -31,11 +35,6 @@ class InvoiceController extends Controller
 
         $products = Product::all();
 
-        $user_id = Auth::user()->id;
-
-        $invoice = Invoice::where('user_id', 'LIKE', "%$user_id%")->where('status', 'LIKE', "%pending%")->latest('id')
-                    ->get();
-
         return view('invoice', [
             'orders' => $orders,
             'products' => $products,
@@ -43,8 +42,33 @@ class InvoiceController extends Controller
         ]);
     }
 
-    // Method for downloading invoice as pdf
-    private function download_as_pdf() {
+    // Method for canceling invoice logic
+    public function cancel_invoice($id) {
+        // Store product stock back
+        // Get user id
+        $user_id = Auth::user()->id;
+
+        // Fetch products from user shopping cart
+        $orders = Cart::where('user_id', 'LIKE', "%$user_id%")->get();
+
+        foreach($orders as $order) {
+            $product = Product::find($order->product_id);
+
+            $product->stock += $order->quantity;
+
+            $product->save();
+
+            $order->delete();
+        }
+
+        // Delete invoice
+        $invoice = Invoice::find($id);
+
+        $invoice->delete();
+    }
+
+    // Method for submiting invoice logic
+    public function submit_invoice($id) {
         // Save invoice as pdf
         $user_id = Auth::user()->id;
         $orders = Cart::where('user_id', 'LIKE', "%$user_id%")->get();
@@ -89,6 +113,14 @@ class InvoiceController extends Controller
 
         // Put content into invoice_pdf folder
         Storage::put('public/invoice_pdf/'.$invoice[0]->id.'.pdf', $content);
+
+        // Update invoice status
+        $invoice = Invoice::find($id);
+
+        $invoice->status = "submitted";
+
+        // Save invoice changes
+        $invoice->save();
     }
 
     // Method for proceed invoice logic

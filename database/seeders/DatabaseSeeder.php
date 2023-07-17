@@ -24,9 +24,9 @@ class DatabaseSeeder extends Seeder
 
         // Create dummy account 1
         User::create([
-            'username' => 'Jonnathan',
-            'email' => 'jonnathan@gmail.com',
-            'password' => Hash::make('jonnathan123'),
+            'username' => 'Jonathan',
+            'email' => 'jonathan@gmail.com',
+            'password' => Hash::make('jonathan123'),
             'is_admin' => 1
         ]);
 
