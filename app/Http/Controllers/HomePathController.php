@@ -11,8 +11,8 @@ class HomePathController extends Controller
     public function view() {
         // Check if user already logged in
         if (Auth::user() != null && Auth::user()->is_admin) {
-            return redirect()->intended('/dashboard');
+            return route('dashboard', 200);
         }
-        else return redirect('/market');
+        else return route('market', 200);
     }
 }

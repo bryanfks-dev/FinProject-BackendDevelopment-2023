@@ -28,9 +28,12 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [HomePathController::class, 'view']);
 
 // Register page
-Route::get('/register', [RegisterController::class, 'view'])->middleware('guest');
+Route::group(['prefix' => '/register',
+            'middleware' => 'guest'], function() {
+    Route::get('/register', [RegisterController::class, 'view']);
 
-Route::post('/register', [RegisterController::class, 'create_user'])->middleware('guest');
+    Route::post('/register', [RegisterController::class, 'create_user']);
+});
 
 // Login page
 Route::get('/login', [LoginController::class, 'view'])->name('login')->middleware('guest');
@@ -38,7 +41,7 @@ Route::get('/login', [LoginController::class, 'view'])->name('login')->middlewar
 Route::post('/login', [LoginController::class, 'auth'])->middleware('guest');
 
 // Market page
-Route::get('/market', [MarketController::class, 'view']);
+Route::get('/market', [MarketController::class, 'view'])->name('market');
 
 Route::get('/market/add/{id}', [MarketController::class, 'add_to_cart'])->middleware('user');
 
@@ -57,27 +60,33 @@ Route::get('/invoice', [InvoiceController::class, 'view'])->middleware(['auth', 
 Route::get('/invoice/{action}/{id}', [InvoiceController::class, 'proceed_invoice'])->middleware(['auth', 'user']);
 
 /* Admin pages router */
-// Dashboard page
-Route::get('/dashboard', [DashboardController::class, 'view'])->middleware(['auth', 'admin']);
+Route::group(['middleware' => 'admin'], function() {
+    // Dashboard page
+    Route::group(['prefix' => 'dashboard'], function() {
+        Route::get('/', [DashboardController::class, 'view']);
 
-Route::post('/dashboard/add_item', [DashboardController::class, 'create_item'])->middleware(['auth', 'admin']);
+        Route::post('/add_item', [DashboardController::class, 'create_item']);
 
-Route::get('/dashboard/sort_item/{by}', [DashboardController::class, 'sort_item'])->middleware(['auth', 'admin']);
+        Route::get('/sort_item/{by}', [DashboardController::class, 'sort_item']);
 
-Route::get('/dashboard/search', [DashboardController::class, 'search_item'])->middleware(['auth', 'admin']);
+        Route::get('/search', [DashboardController::class, 'search_item']);
 
-Route::post('/dashboard/update_item/{id}', [DashboardController::class, 'update_item'])->middleware(['auth', 'admin']);
+        Route::post('/update_item/{id}', [DashboardController::class, 'update_item']);
 
-Route::get('/dashboard/delete_item/{id}', [DashboardController::class, 'delete_item'])->middleware(['auth', 'admin']);
+        Route::get('/delete_item/{id}', [DashboardController::class, 'delete_item']);
+    });
 
-// Incoming invoice page
-Route::get('/incoming_invoice', [IncomingInvoiceController::class, 'view'])->middleware(['auth', 'admin']);
+    // Incoming invoice page
+    Route::group(['prefix' => 'incoming_invoice'], function() {
+        Route::get('/incoming_invoice', [IncomingInvoiceController::class, 'view']);
 
-Route::get('/incoming_invoice/view/{id}', [IncomingInvoiceController::class, 'view_invoice'])->middleware(['auth', 'admin']);
+        Route::get('/incoming_invoice/view/{id}', [IncomingInvoiceController::class, 'view_invoice']);
 
-Route::get('/incoming_invoice/sort/{by}', [IncomingInvoiceController::class, 'sort_invoice'])->middleware(['auth', 'admin']);
+        Route::get('/incoming_invoice/sort/{by}', [IncomingInvoiceController::class, 'sort_invoice']);
 
-Route::get('/incoming_invoice/search', [IncomingInvoiceController::class, 'search_invoice'])->middleware(['auth', 'admin']);
+        Route::get('/incoming_invoice/search', [IncomingInvoiceController::class, 'search_invoice']);
+    });
+});
 
 /* All user page(s) */
 // Logout
