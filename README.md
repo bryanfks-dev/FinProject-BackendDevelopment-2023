@@ -1,3 +1,12 @@
+#Final Project Backend Development 2023
+E-Commerce Website
+
+## Team:
+ - [Bryan Fernando Kurniawan Suhartono - 2602079804](https://github.com/bryanfks-dev)
+ - [Felix Juwono Purwoko - 2602160776](https://github.com/Felixjuw)
+ - [Jonathan Edmund William - 2602152982](https://github.com/jonathanEdmundW)
+ - Wildan Rizkia Noor - 2602200022
+
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
 <p align="center">
