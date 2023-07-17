@@ -12,14 +12,12 @@ use Cookie;
 class LoginController extends Controller
 {
     // Method to display login page
-    public function view()
-    {
+    public function view() {
         return view('login');
     }
 
     // Method for login logic
-    public function auth(Request $request)
-    {
+    public function auth(Request $request){
         // Validate inputted user data
         $credentials = $request->validate([
             'username' => 'required',
@@ -40,12 +38,12 @@ class LoginController extends Controller
                 $key_cookie = cookie("key", Hash::make(Auth::user()->id), time() + (3600 * 24 * 30));
 
                 // Redirect user to market
-                if (!Auth::user()->is_admin) return redirect('/market')->cookie($belongs_cookie)->cookie($key_cookie);
+                if (!Auth::user()->is_admin) return redirect()->intended('/')->cookie($belongs_cookie)->cookie($key_cookie);
                 // Redirect admin to its page
                 else return redirect()->intended('/dashboard');
             } else {
                 // Redirect user to market
-                if (!Auth::user()->is_admin) return redirect('/market');
+                if (!Auth::user()->is_admin) return redirect()->intended('/');
                 // Redirect admin to its page
                 else return redirect()->intended('/dashboard');
             }
@@ -56,8 +54,7 @@ class LoginController extends Controller
     }
 
     // Method for logout logic
-    public function logout(Request $request)
-    {
+    public function logout(Request $request) {
         Auth::logout();
 
         $request->session()->invalidate();
@@ -71,7 +68,7 @@ class LoginController extends Controller
             $key_cookie = Cookie::forget('key');
 
             // Redirect user back to market
-            return redirect('/market')->withCookie($belongs_cookie)->withCookie($key_cookie);
-        } else return redirect('/market');
+            return redirect()->intended('/')->withCookie($belongs_cookie)->withCookie($key_cookie);
+        } else return redirect()->intended('/');
     }
 }
