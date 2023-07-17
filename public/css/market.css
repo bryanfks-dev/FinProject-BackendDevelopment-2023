@@ -1,0 +1,105 @@
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Main */
+main {
+    flex: 1;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.items {
+    flex: 1;
+    padding: 2.25rem;
+    display: flex;
+    gap: 2em;
+    flex-basis: 25%;
+}
+
+.card {
+    position: relative;
+    background-color: #ffffff;
+    width: 25%;
+    padding: 1.5rem 2.5rem;
+    border-radius: .5em;
+    -webkit-border-radius: .5em;
+    -moz-border-radius: .5em;
+    -ms-border-radius: .5em;
+    -o-border-radius: .5em;
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+}
+
+.card .pic-border {
+    position: relative;
+    background-color: #d9d9d9;
+    height: 50%;
+    padding: 2em;
+    border-radius: .7em;
+    -webkit-border-radius: .7em;
+    -moz-border-radius: .7em;
+    -ms-border-radius: .7em;
+    -o-border-radius: .7em;
+}
+
+.card .pic-border .pic {
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    width: 100%;
+    height: 100%;
+}
+
+.card .name-price {
+    font-size: 16px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.card .name-price span:last-of-type {
+    white-space: nowrap;
+    font-weight: 500;
+    font-size: 14px;
+    margin-top: .23em;
+}
+
+.card .desc {
+    display: -webkit-box;
+    font-size: 14px;
+    text-align: justify;
+    overflow: hidden;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    text-overflow: ellipsis;
+}
+
+.card .stock-add {
+    position: absolute;
+    width: 100%;
+    padding: 1.5em 2.5em;
+    bottom: 0;
+    right: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.card .stock-add span {
+    color: #0EBB15;
+    font-weight: 500;
+}
+
+.card .stock-add a {
+    background-color: black;
+    padding: .2rem .2em 0 .2em;
+    cursor: pointer;
+}
+
+.card .stock-add a i {
+    color: white;
+    font-size: 24px;
+}

@@ -1,0 +1,129 @@
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Main */
+main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 2rem;
+}
+
+main > span {
+    font-size: 20px;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    margin-bottom: .5em;
+}
+
+/* Table */
+table {
+    border-collapse: separate;
+    border-spacing: 1.3em;
+}
+
+tr td {
+    vertical-align: top;
+}
+
+th {
+    border-bottom: 1px solid black;
+}
+
+/* 1st cell */
+tr td:first-of-type,
+tr th:first-of-type {
+    width: 50%;
+}
+
+tr td:first-of-type {
+    display: flex;
+    gap: 1.5em;
+    width: 100%;
+}
+
+tr td:first-of-type > div {
+    background-color: #d9d9d9;
+    padding: 1em;
+    border-radius: 1em;
+    -webkit-border-radius: 1em;
+    -moz-border-radius: 1em;
+    -ms-border-radius: 1em;
+    -o-border-radius: 1em;
+}
+
+tr td:first-of-type div div {
+    width: 50px;
+    height: 50px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+
+/* 2nd cell */
+tr td:nth-of-type(2),
+tr th:nth-of-type(2) {
+    width: 15%;
+}
+
+tr td:nth-of-type(2) {
+    text-align: center;
+}
+
+/* 3rd cell */
+tr td:nth-of-type(3),
+tr th:nth-of-type(3) {
+    width: 20%;
+}
+
+tr td p {
+    text-align: center;
+}
+
+tr td:nth-of-type(3) div {
+    display: flex;
+    gap: 1em;
+    align-items: center;
+    justify-content: center;
+}
+
+tr td:nth-of-type(3) div a {
+    display: flex;
+    align-items: center;
+    color: black;
+    cursor: pointer;
+}
+
+tr td:nth-of-type(3) div a i {
+    font-size: 18px;
+}
+
+tr td:nth-of-type(3) div a:last-of-type i {
+    color: red;
+}
+
+/* 4th cell */
+tr td:nth-of-type(4) {
+    text-align: center;
+}
+
+/* Check out button */
+main > a {
+    position: absolute;
+    bottom: 1.3em;
+    right: 2em;
+    font-size: 20px;
+    color: white;
+    background-color: #803ad0;
+    font-weight: bold;
+    padding: .5em .7em;
+    width: fit-content;
+    cursor: pointer;
+    border-radius: .5em;
+    -webkit-border-radius: .5em;
+    -moz-border-radius: .5em;
+    -ms-border-radius: .5em;
+    -o-border-radius: .5em;
+}

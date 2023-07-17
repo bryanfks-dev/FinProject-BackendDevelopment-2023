@@ -1,0 +1,300 @@
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Main */
+main {
+    flex: 1;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 2.5rem;
+}
+
+/* Menu */
+main .menus {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* Create item */
+.menus > div:first-of-type {
+    color: white;
+    padding: .3em .5em;
+    background-color: #803ad0;
+    border-radius: .4em;
+    -webkit-border-radius: .4em;
+    -moz-border-radius: .4em;
+    -ms-border-radius: .4em;
+    -o-border-radius: .4em;
+    cursor: pointer;
+}
+
+.menus > div:last-of-type {
+    display: flex;
+    gap: 1em;
+}
+
+/* Sort menu */
+.menus .sort {
+    background-color: #ffffff;
+    position: relative;
+    cursor: pointer;
+}
+
+.menus .sort > div:first-of-type {
+    display: flex;
+    align-items: center;
+    gap: .8em;
+    padding: .4em 1em;
+}
+
+.menus .sort > div:first-of-type i {
+    font-size: 12px;
+}
+
+.menus .sort .sort-menu {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    left: 0%;
+    background-color: #ffffff;
+    height: 0;
+    overflow-y: hidden;
+}
+
+.menus .sort .sort-menu a {
+    color: black;
+    padding: .4em 1.25em;
+}
+
+/* Search menu */
+.menus form input,
+.menus form button {
+    padding: .2em .5em;
+}
+
+.menus form button {
+    background-color: #bdbdbd;
+    cursor: pointer;
+}
+
+/* Table */
+table {
+    border-collapse: collapse;
+    margin: 1.3em 0;
+}
+
+table input {
+    width: 100%;
+    text-align: center;
+}
+
+table input,
+table textarea {
+    font-size: 14px;
+    padding: 0 .5em;
+}
+
+table input:disabled,
+table textarea:disabled {
+    background-color: #f8f8f8;
+}
+
+table input.alert {
+    color: red;
+}
+
+table tr td:first-of-type input {
+    text-align: left;
+}
+
+tr td {
+    vertical-align: top;
+}
+
+th {
+    border-bottom: 1px solid black;
+}
+
+/* 1st cell */
+tr td:first-of-type,
+tr th:first-of-type {
+    width: 20%;
+}
+
+/* 2nd cell */
+tr td:nth-of-type(2),
+tr th:nth-of-type(2) {
+    width: 15%;
+}
+
+tr td:nth-of-type(2) {
+    width: 100%;
+    display: flex;
+}
+
+/* 3rd cell */
+tr td:nth-of-type(3),
+tr th:nth-of-type(3) {
+    width: 5%;
+    text-align: center;
+}
+
+/* 4th cell */
+tr td:nth-of-type(4) {
+    width: 50%;
+}
+
+tr td:nth-of-type(4) textarea {
+    padding-top: .14em;
+    resize: none;
+    width: 100%;
+    text-align: justify;
+}
+
+/* 5th cell */
+tr td:nth-of-type(5) div {
+    margin-top: .4em;
+    display: flex;
+    gap: 1em;
+    justify-content: center;
+}
+
+tr td:nth-of-type(5) div button,
+tr td:nth-of-type(5) div i#edit-btn {
+    cursor: pointer;
+    border-radius: .2em;
+    -webkit-border-radius: .2em;
+    -moz-border-radius: .2em;
+    -ms-border-radius: .2em;
+    -o-border-radius: .2em;
+}
+
+tr td:nth-of-type(5) div i#edit-btn {
+    background-color: #3abaf4;
+}
+
+tr td:nth-of-type(5) div a {
+    background-color: #fc544b;
+}
+
+tr td:nth-of-type(5) div a i,
+tr td:nth-of-type(5) div i#edit-btn {
+    font-size: 18px;
+    color: white;
+    padding: .5em;
+}
+
+/* Return to top button */
+.return-to-top {
+    display: none;
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    margin: 0 3.5em 2.5em 0;
+    background-color: #803ad0;
+    padding: .3em .3em 0 .3em;
+    border-radius: 999px;
+    -webkit-border-radius: 999px;
+    -moz-border-radius: 999px;
+    -ms-border-radius: 999px;
+    -o-border-radius: 999px;
+    cursor: pointer;
+}
+
+.return-to-top i {
+    color: white;
+    font-size: 56px;
+}
+
+/* Create new item */
+section {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    display: none;
+    transition: .7s ease-in;
+    -webkit-transition: .7s ease-in;
+    -moz-transition: .7s ease-in;
+    -ms-transition: .7s ease-in;
+    -o-transition: .7s ease-in;
+}
+
+/* Dim background */
+.dim-bg {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    opacity: 85%;
+}
+
+.modal-container {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+/* Create new item modal */
+.modal-container .modal {
+    background-color: #f8f8f8;
+    padding: 1.3em;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -webkit-transform: translate(-50%, -50%);
+    -moz-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    -o-transform: translate(-50%, -50%);
+}
+
+.modal-container .modal > div {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.modal-container .modal > div i {
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.modal-container .modal form {
+    margin-top: 1em;
+    display: flex;
+    flex-direction: column;
+    gap: .7em;
+}
+
+.modal-container .modal form input:not(input[type="file"]) {
+    outline: auto;
+}
+
+.modal-container .modal form textarea {
+    resize: none;
+    outline: auto;
+}
+
+.modal-container .modal form input,
+.modal-container .modal form textarea {
+    padding: .2em .5em;
+}
+
+.modal-container .modal form input[type="number"]::-webkit-inner-spin-button,
+.modal-container .modal form input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.modal-container form button {
+    margin-top: 1em;
+    margin-bottom: 1.5em;
+    color: white;
+    background-color: #803ad0;
+    padding: .5em;
+    cursor: pointer;
+}

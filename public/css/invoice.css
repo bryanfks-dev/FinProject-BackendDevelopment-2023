@@ -1,0 +1,74 @@
+body {
+    padding: 3em;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Header */
+header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.client {
+    text-align: right;
+}
+
+/* Main */
+main {
+    flex: 1;
+    height: 100%;
+}
+
+h2 {
+    margin: 1.3em 0;
+}
+
+/* Table */
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+/* Table body */
+tbody tr {
+    height: 3em;
+}
+
+tr {
+    border-bottom: 1px solid rgb(161, 155, 155);
+    text-align: center;
+}
+
+/* Table head */
+thead {
+    height: 3em;
+    background-color: lightgray;
+}
+
+tfoot .empty-tr {
+    height: 1.6em;
+}
+
+/* Action buttons */
+main > div {
+    display: flex;
+    justify-content: flex-end;
+    gap: .5em;
+    margin-top: 3.5em;
+}
+
+main > div a {
+    color: white;
+    font-weight: 500;
+    font-size: 20px;
+    padding: .3em 1.2em;
+}
+
+main > div a.cancel-invoice {
+    background-color: red;
+}
+
+main > div a.submit-invoice {
+    background-color: #28a745;
+}

@@ -1,0 +1,129 @@
+html {
+    user-select: text;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Main */
+main {
+    height: 100%;
+    padding: 2.5rem;
+}
+
+/* Menu */
+main > div {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 2.5em;
+}
+
+.menus {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 1em;
+}
+
+/* Sort menu */
+.menus .sort {
+    background-color: #ffffff;
+    position: relative;
+    cursor: pointer;
+}
+
+.menus .sort > div:first-of-type {
+    display: flex;
+    align-items: center;
+    gap: .8em;
+    padding: .4em 1em;
+}
+
+.menus .sort > div:first-of-type i {
+    font-size: 12px;
+}
+
+.menus .sort .sort-menu {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    left: 0%;
+    background-color: #ffffff;
+    height: 0;
+    overflow-y: hidden;
+}
+
+.menus .sort .sort-menu a {
+    color: black;
+    padding: .4em 1.25em;
+}
+
+/* Search menu */
+.menus form input,
+.menus form button {
+    padding: .2em .5em;
+}
+
+.menus form button {
+    background-color: #bdbdbd;
+    cursor: pointer;
+}
+
+/* Table */
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+tr {
+    border-bottom: 1px solid black;
+}
+
+/* Table head */
+thead {
+    height: 2.5em;
+    background-color: lightgray;
+}
+
+/* Table body */
+tbody {
+    text-align: center;
+}
+
+tbody tr {
+    height: 2.5em;
+}
+
+tbody tr td:last-of-type a {
+    display: flex;
+    justify-content: center;
+}
+
+tbody tr td:last-of-type a i {
+    font-size: 24px;
+    color: red;
+}
+
+/* Return to top button */
+.return-to-top {
+    display: none;
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    margin: 0 3.5em 2.5em 0;
+    background-color: #803ad0;
+    padding: .3em .3em 0 .3em;
+    border-radius: 999px;
+    -webkit-border-radius: 999px;
+    -moz-border-radius: 999px;
+    -ms-border-radius: 999px;
+    -o-border-radius: 999px;
+    cursor: pointer;
+}
+
+.return-to-top i {
+    color: white;
+    font-size: 56px;
+}
