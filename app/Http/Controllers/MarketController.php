@@ -55,13 +55,13 @@ class MarketController extends Controller
         // Check whenever the order is already exist
         $exist_cart = Cart::where('user_id', 'LIKE', "%$user_id%")->get();
 
-        if (!$exist_cart->isEmpty()) {
-            // Check whenever current product stock is 0
-            if (Product::find($id)->stock === 0) {
-                // Sent out of stock status
-                return redirect('/')->with("out_of_stock", "status:out of stock");
-            }
+        // Check whenever current product stock is 0
+        if (Product::find($id)->stock === 0) {
+            // Sent out of stock status
+            return redirect('/')->with("out_of_stock", "status:out of stock");
+        }
 
+        if (!$exist_cart->isEmpty()) {
             // Check if current product stock not 0
             if ($exist_cart[0]->quantity + 1 <= Product::find($exist_cart[0]->product_id)->stock) {
                 // Increase quantity

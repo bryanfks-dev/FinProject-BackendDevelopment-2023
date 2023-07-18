@@ -37,7 +37,7 @@
         {{$products->links('partials.pagination')}}
     </main>
 
-    {{-- Registration success indicator --}}
+    {{-- Product out of stock indicator --}}
     @if(session()->has('out_of_stock'))
         <script type="text/javascript">
             alert("Product already out of stock!");
