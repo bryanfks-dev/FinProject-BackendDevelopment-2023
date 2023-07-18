@@ -2,7 +2,7 @@
     @if($products->find($order->product_id)->stock === 0)
         @php
             // Delete order if product stock is 0
-            (App\Http\Controllers\ShoppingCartController)::delete_order($order->id);
+            App\Http\Controllers\ShoppingCartController::delete_order($order->id);
         @endphp
     @endif
     <td>
