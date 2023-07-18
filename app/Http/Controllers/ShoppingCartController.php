@@ -16,7 +16,7 @@ class ShoppingCartController extends Controller
         $user_id = Auth::user()->id;
 
         $orders = Cart::where('user_id', 'LIKE', "%$user_id%")
-                    ->latest('id')->get()
+                    ->latest('id')
                     ->paginate(4);
 
         $products = Product::all();
