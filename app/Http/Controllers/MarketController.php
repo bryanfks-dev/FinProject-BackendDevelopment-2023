@@ -62,10 +62,14 @@ class MarketController extends Controller
                 return redirect('/market')->with("out_of_stock", "status:out of stock");
             }
 
-            // Add order quantity
-            $exist_cart[0]->quantity++;
+            // Check if current product stock not 0
+            if ($exist_cart[0]->quantity + 1 <= Product::find($exist_cart[0]->product_id)->stock) {
+                // Increase quantity
+                $exist_cart[0]->quantity++;
 
-            $exist_cart[0]->save();
+                // Update order
+                $exist_cart[0]->save();
+            }
         }
         else {
             // Create new order
