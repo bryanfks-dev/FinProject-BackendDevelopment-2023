@@ -21,7 +21,7 @@ class IncomingInvoiceController extends Controller
     public function sort_invoice($by) {
         $sort_by = ['name', 'date'];
 
-        if ($by > 0 && $by < count($sort_by)) {
+        if ($by >= 0 && $by < count($sort_by)) {
             // Fetch all invoice and sort them
             $invoices = Invoice::all()->sortBy($sort_by[$by]);
 
