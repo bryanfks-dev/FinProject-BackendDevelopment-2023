@@ -7,13 +7,18 @@ use App\Models\Cart;
 use App\Models\Invoice;
 use App\Models\Product;
 use Illuminate\Support\Facades\Auth;
-use SebastianBergmann\Type\VoidType;
 
 class ShoppingCartController extends Controller
 {
     // Method to display shopping cart page
     public function view() {
-        $orders = Cart::latest('id')->paginate(4);
+        // Get user id
+        $user_id = Auth::user()->id;
+
+        $orders = Cart::where('user_id', 'LIKE', "%$user_id%")
+                    ->latest('id')->get()
+                    ->paginate(4);
+        
         $products = Product::all();
 
         return view('shopping_cart', [

@@ -49,7 +49,7 @@ Route::group(['middleware' => 'guest'], function() {
 Route::group(['prefix' => '/'], function() {
     Route::get('/', [MarketController::class, 'view'])->name('market');
 
-    Route::get('/add/{id}', [MarketController::class, 'add_to_cart'])->middleware('user');
+    Route::get('/add/{id}', [MarketController::class, 'add_to_cart'])->middleware(['auth', 'user']);
 });
 
 Route::group(['middleware' => ['auth', 'user']], function() {

@@ -50,10 +50,17 @@
         </script>
     @endif
 
-    {{-- login failed indicator --}}
+    {{-- Login failed indicator --}}
     @if(session()->has('login_error'))
         <script type="text/javascript">
             alert("Login failed! Please check your username / password again");
+        </script>
+    @endif
+
+    {{-- Too many attempts indicator --}}
+    @if(session()->has('too_many_attempts'))
+        <script type="text/javascript">
+            alert("Too many attempts! Please wait for a minute to login again");
         </script>
     @endif
 
