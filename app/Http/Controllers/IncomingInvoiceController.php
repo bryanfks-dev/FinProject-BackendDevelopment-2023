@@ -29,24 +29,29 @@ class IncomingInvoiceController extends Controller
     public function sort_invoice($by) {
         $sort_by = ['name', 'date'];
 
-        // Fetch all invoice and sort them
-        $invoices = Invoice::all()->sortBy($sort_by[$by]);
+        if ($by > 0 && $by < count($sort_by)) {
+            // Fetch all invoice and sort them
+            $invoices = Invoice::all()->sortBy($sort_by[$by]);
 
-        return view('admin_invoice', [
-            "invoices" => $invoices
-        ]);
+            return view('admin_invoice', [
+                "invoices" => $invoices
+            ]);
+        }
+        // Return bad request
+        else return abort(400);
     }
 
     // Method for search item logic
     public function search_invoice(Request $request) {
         // Get invoice data from search
-        $search = $request->input("search");
+        $input = $request->search;
 
-        $date_input = date('Y-m-d H:i:s', strtotime($search));
+        $date_input = str_replace('/', '-', $input);
+        $date_input = date('Y-m-d', strtotime($date_input));
 
         // Search invoice matched with search
-        $invoices = Invoice::where('name', 'LIKE', "%$search%")
-                    ->orWhere('date', 'LIKE', "%$date_input%") ->get();
+        $invoices = Invoice::where('name', 'LIKE', "%$input%")
+                    ->orWhere('date', 'LIKE', "%$date_input%")->get();
 
         // Display admin invoice page with found invoice only
         return view('admin_invoice', [

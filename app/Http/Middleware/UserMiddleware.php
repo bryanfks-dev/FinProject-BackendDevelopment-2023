@@ -20,7 +20,7 @@ class UserMiddleware
         if (Auth::user() !== null) {
             // Redirect admin to dashboard page
             if (Auth::user()->is_admin) {
-                return redirect('/dashboard');
+                return abort(403);
             }
         }
 

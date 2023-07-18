@@ -7,6 +7,7 @@ use App\Models\Cart;
 use App\Models\Invoice;
 use App\Models\Product;
 use Illuminate\Support\Facades\Auth;
+use SebastianBergmann\Type\VoidType;
 
 class ShoppingCartController extends Controller
 {
@@ -23,22 +24,27 @@ class ShoppingCartController extends Controller
     }
 
     // Method for checking available invoice
-    private function check_invoice() {
+    static function check_invoice() {
         // Get user id
         $user_id = Auth::user()->id;
 
-        $invoice = Invoice::where('user_id', 'LIKE', "%$user_id%")->get();
+        $invoice = Invoice::where('user_id', 'LIKE', "%$user_id%")
+                    ->where('status', 'LIKE', "%pending%")->get();
 
         // Check if available invoice is not empty
         if (!$invoice->isEmpty()) {
             // Redirect user to invoice page
-            return redirect('/invoice');
+            return 1;
         }
+
+        return 0;
     }
 
     // Method for increase quantity logic
     public function increase_quantity($id) {
-        $this->check_invoice();
+        if ($this->check_invoice()) {
+            return redirect('/invoice');
+        }
 
         // Find order using it's id
         $order = Cart::find($id);
@@ -61,7 +67,8 @@ class ShoppingCartController extends Controller
         // Get user id
         $user_id = Auth::user()->id;
 
-        $invoice = Invoice::where('user_id', 'LIKE', "%$user_id%")->get();
+        $invoice = Invoice::where('user_id', 'LIKE', "%$user_id%")
+                    ->where('status', 'LIKE', "%pending%")->get();
 
         // Check if available invoice is empty
         if ($invoice->isEmpty()) {
@@ -83,17 +90,19 @@ class ShoppingCartController extends Controller
                 // Update order
                 $order->save();
             }
+
+            // Redirect user back to cart page
+            return redirect()->back();
         }
         // Redirect user to invoice page
         else return redirect('/invoice');
-
-        // Redirect user back to cart page
-        return redirect()->back();
     }
 
     // Method for delete order logic
     public function delete_order($id) {
-        $this->check_invoice();
+        if ($this->check_invoice()) {
+            return redirect('/invoice');
+        }
 
         // Find orde using it's id
         $order = Cart::find($id);

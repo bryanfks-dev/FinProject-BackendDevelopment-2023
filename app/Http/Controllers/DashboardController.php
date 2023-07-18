@@ -48,24 +48,28 @@ class DashboardController extends Controller
     public function sort_item($by) {
         $sort_by = ['name', 'price', 'stock'];
 
-        // Fetch all item and sort them
-        $items = Product::all()->sortBy($sort_by[$by]);
+        if ($by >= 0 && $by < count($sort_by)) {
+            // Fetch all item and sort them
+            $items = Product::all()->sortBy($sort_by[$by]);
 
-        // Display admin dashboard page with sorted items
-        return view('admin_dashboard', [
-            "products" => $items
-        ]);
+            // Display admin dashboard page with sorted items
+            return view('admin_dashboard', [
+                "products" => $items
+            ]);
+        }
+        // Return bad request
+        else abort(400);
     }
 
     // Method for search item logic
     public function search_item(Request $request) {
         // Get item name from search
-        $search = $request->input("search");
+        $input = $request->search;
 
         // Search item's name matched with search
-        $products = Product::where('name', 'LIKE', "%$search%")
-                    ->orWhere('price', 'LIKE', "%$search%")
-                    ->orWhere('stock', 'LIKE', "%$search%")->get();
+        $products = Product::where('name', 'LIKE', "%$input%")
+                    ->orWhere('price', 'LIKE', "%$input%")
+                    ->orWhere('stock', 'LIKE', "%$input%")->get();
 
         // Display admin dashboard page with found item only as product
         return view('admin_dashboard', [

@@ -44,6 +44,17 @@ class InvoiceController extends Controller
 
     // Method for canceling invoice logic
     public function cancel_invoice($id) {
+        // Delete invoice
+        $invoice = Invoice::find($id);
+
+        // Check if invoice is null
+        if ($invoice === null) {
+            // Return bad request
+            return abort(400);
+        }
+
+        $invoice->delete();
+
         // Store product stock back
         // Get user id
         $user_id = Auth::user()->id;
@@ -61,24 +72,27 @@ class InvoiceController extends Controller
             $order->delete();
         }
 
-        // Delete invoice
-        $invoice = Invoice::find($id);
-
-        $invoice->delete();
-
         // Redirect user to market
         return redirect()->intended('/');
     }
 
     // Method for submiting invoice logic
     public function submit_invoice($id) {
-        // Save invoice as pdf
+        // Get user id
         $user_id = Auth::user()->id;
+
+        $invoice = Invoice::where('user_id', 'LIKE', "%$user_id%")->where('status', 'LIKE', "%pending%")->get();
+
+        // Check if invoice is null
+        if ($invoice->isEmpty()) {
+            // Return bad request
+            return abort(400);
+        }
+
+        // Save invoice as pdf
         $orders = Cart::where('user_id', 'LIKE', "%$user_id%")->get();
 
         $products = Product::all();
-
-        $invoice = Invoice::where('user_id', 'LIKE', "%$user_id%")->where('status', 'LIKE', "%pending%")->get();
 
         // Calculate subtotal
         $sub_total = 0;
