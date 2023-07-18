@@ -54,6 +54,12 @@ class ShoppingCartController extends Controller
         // Find order using it's id
         $order = Cart::find($id);
 
+        // Check if order id is valid
+        if ($order === null) {
+            // Return bad request
+            return abort(400);
+        }
+
         // Check if current product stock not 0
         if ($order->quantity + 1 <= Product::find($order->product_id)->stock) {
             // Increase quantity
@@ -79,6 +85,12 @@ class ShoppingCartController extends Controller
         if ($invoice->isEmpty()) {
             // Find order using it's id
             $order = Cart::find($id);
+
+            // Check if order id is valid
+            if ($order === null) {
+                // Return bad request
+                return abort(400);
+            }
 
             $product = Product::find($order->product_id);
 
@@ -109,8 +121,14 @@ class ShoppingCartController extends Controller
             return redirect('/invoice');
         }
 
-        // Find orde using it's id
+        // Find order using it's id
         $order = Cart::find($id);
+
+        // Check if order id is valid
+        if ($order === null) {
+            // Return bad request
+            return abort(400);
+        }
 
         // Delete order
         $order->delete();

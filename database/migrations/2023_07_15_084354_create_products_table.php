@@ -16,9 +16,12 @@ return new class extends Migration
             $table->increments('id');
             $table->string('name');
             $table->unsignedBigInteger('price');
-            $table->unsignedBigInteger('stock');
+            $table->integer('stock');
             $table->text('description');
             $table->string('image');
+
+            // Table indexing
+            $table->index(['name', 'price', 'stock']);
         });
     }
 

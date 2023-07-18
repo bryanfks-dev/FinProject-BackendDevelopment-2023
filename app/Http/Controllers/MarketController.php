@@ -34,6 +34,12 @@ class MarketController extends Controller
 
     // Method for add to cart logic
     public function add_to_cart($id) {
+        // Check if product id is valid
+        if (Product::find($id) === null) {
+            // Return bad request
+            return abort(400);
+        }
+
         // Get user id
         $user_id = Auth::user()->id;
 
@@ -47,9 +53,7 @@ class MarketController extends Controller
         }
 
         // Check whenever the order is already exist
-        $user_id = Auth::user()->id;
-        $exist_cart = Cart::where('user_id', 'LIKE', "%$user_id%")
-                    ->where('product_id', 'LIKE', "%$id%")->get();
+        $exist_cart = Cart::where('user_id', 'LIKE', "%$user_id%")->get();
 
         if (!$exist_cart->isEmpty()) {
             // Check whenever current product stock is 0
@@ -64,12 +68,6 @@ class MarketController extends Controller
             $exist_cart[0]->save();
         }
         else {
-            // Check if product id is available
-            if (Product::find($id) === null) {
-                // Return bad request
-                return abort(400);
-            }
-
             // Create new order
             $cart = new Cart;
 

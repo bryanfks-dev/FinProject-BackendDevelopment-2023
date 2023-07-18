@@ -17,8 +17,9 @@ class InvoiceController extends Controller
     public function view() {
         $user_id = Auth::user()->id;
 
-        $invoice = Invoice::where('user_id', 'LIKE', "%$user_id%")->where('status', 'LIKE', "%pending%")->latest('id')
-                    ->get();
+        $invoice = Invoice::where('user_id', 'LIKE', "%$user_id%")
+                    ->where('status', 'LIKE', "%pending%")
+                    ->latest('id')->get();
 
         // Check if invoice is empty
         if ($invoice->isEmpty()) {
@@ -81,7 +82,8 @@ class InvoiceController extends Controller
         // Get user id
         $user_id = Auth::user()->id;
 
-        $invoice = Invoice::where('user_id', 'LIKE', "%$user_id%")->where('status', 'LIKE', "%pending%")->get();
+        $invoice = Invoice::where('user_id', 'LIKE', "%$user_id%")
+                    ->where('status', 'LIKE', "%pending%")->get();
 
         // Check if invoice is null
         if ($invoice->isEmpty()) {
@@ -144,8 +146,6 @@ class InvoiceController extends Controller
         }
 
         // Update invoice status
-        $invoice = Invoice::find($id);
-
         $invoice->status = "submitted";
 
         // Save invoice changes

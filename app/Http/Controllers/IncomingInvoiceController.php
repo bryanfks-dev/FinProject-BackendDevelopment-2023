@@ -17,14 +17,6 @@ class IncomingInvoiceController extends Controller
         ]);
     }
 
-    // Method for displaying invoice logic
-    public function view_invoice($id) {
-        // Display pdf
-        return response()->file(public_path('storage/invoice_pdf/'.$id.'.pdf'), [
-            'content-type'=>'application/pdf'
-        ]);
-    }
-
     // Method for sorting invoice logic
     public function sort_invoice($by) {
         $sort_by = ['name', 'date'];
@@ -56,6 +48,20 @@ class IncomingInvoiceController extends Controller
         // Display admin invoice page with found invoice only
         return view('admin_invoice', [
             "invoices" => $invoices
+        ]);
+    }
+
+    // Method for displaying invoice logic
+    public function view_invoice($id) {
+        // Check if invoice id is valid
+        if (Invoice::find($id) === null) {
+            // Return bad request
+            return abort(400);
+        }
+
+        // Display pdf
+        return response()->file(public_path('storage/invoice_pdf/'.$id.'.pdf'), [
+            'content-type'=>'application/pdf'
         ]);
     }
 }

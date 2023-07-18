@@ -79,6 +79,18 @@ class DashboardController extends Controller
 
     // Method for update item logic
     public function update_item(Request $request) {
+        // Get item id
+        $item_id = $request->input("id");
+
+        // Find item using it's id
+        $item = Product::find($item_id);
+
+        // Check if item id is valid
+        if ($item === null) {
+            // Return bad request
+            return abort(400);
+        }
+
         // Validate inputted item data
         $validatedData = $request->validate([
             'name' => 'required',
@@ -86,12 +98,6 @@ class DashboardController extends Controller
             'stock' => 'required',
             'description' => 'required'
         ]);
-
-        // Get item id
-        $item_id = $request->input("id");
-
-        // Find item using it's id
-        $item = Product::find($item_id);
 
         // Update item attributes
         $item->name = $validatedData["name"];
@@ -110,6 +116,12 @@ class DashboardController extends Controller
     public function delete_item($id) {
         // Find item using it's id
         $item = Product::find($id);
+
+        // Check if item id is valid
+        if ($item === null) {
+            // Return bad request
+            return abort(400);
+        }
 
         // Delete item image
         if (File::exists("url('public/product_img', $item->image)")) {

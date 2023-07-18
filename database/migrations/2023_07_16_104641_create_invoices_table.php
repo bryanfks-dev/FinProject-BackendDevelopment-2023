@@ -3,7 +3,6 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Support\Facades\File;
 
 return new class extends Migration
 {
@@ -18,6 +17,9 @@ return new class extends Migration
             $table->integer('user_id');
             $table->date('date');
             $table->string('status');
+
+            // Table indexing
+            $table->index(['name', 'user_id', 'date', 'status']);
         });
     }
 
