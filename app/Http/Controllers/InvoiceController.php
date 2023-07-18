@@ -9,6 +9,7 @@ use App\Models\Invoice;
 use App\Models\Product;
 use Illuminate\Support\Facades\Auth;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 class InvoiceController extends Controller
@@ -54,23 +55,35 @@ class InvoiceController extends Controller
             return abort(400);
         }
 
-        $invoice->delete();
+        try {
+            DB::beginTransaction();
 
-        // Store product stock back
-        // Get user id
-        $user_id = Auth::user()->id;
+            $invoice->delete();
 
-        // Fetch products from user shopping cart
-        $orders = Cart::where('user_id', 'LIKE', "%$user_id%")->get();
+            // Store product stock back
+            // Get user id
+            $user_id = Auth::user()->id;
 
-        foreach($orders as $order) {
-            $product = Product::find($order->product_id);
+            // Fetch products from user shopping cart
+            $orders = Cart::where('user_id', 'LIKE', "%$user_id%")->get();
 
-            $product->stock += $order->quantity;
+            foreach($orders as $order) {
+                $product = Product::find($order->product_id);
 
-            $product->save();
+                $product->stock += $order->quantity;
 
-            $order->delete();
+                $product->save();
+
+                $order->delete();
+            }
+
+            DB::commit();
+        } catch (\Throwable $th) {
+            // Throw error
+            throw $th;
+
+            // Rollback database
+            DB::rollBack();
         }
 
         // Redirect user to market

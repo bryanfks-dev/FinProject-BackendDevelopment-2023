@@ -7,6 +7,7 @@ use App\Models\Cart;
 use App\Models\Invoice;
 use App\Models\Product;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class ShoppingCartController extends Controller
 {
@@ -166,22 +167,36 @@ class ShoppingCartController extends Controller
                 }
             }
 
-            // Decrease product stock by quantity
-            foreach($orders as $order) {
-                $product = Product::find($order->product_id);
+            try {
+                // Database transaction
+                DB::beginTransaction();
 
-                $product->stock -= $order->quantity;
+                // Decrease product stock by quantity
+                foreach($orders as $order) {
+                    $product = Product::find($order->product_id);
 
-                $product->save();
+                    $product->stock -= $order->quantity;
+
+                    $product->save();
+                }
+
+                // Create invoice
+                Invoice::create([
+                    'name' => "Invoice INV/".Auth::user()->id."/".date('Ymd')."/".time(),
+                    'user_id' => Auth::user()->id,
+                    'date' => date("Y-m-d H:i:s"),
+                    'status' => "pending"
+                ]);
+
+                DB::commit();
             }
+            catch (\Throwable $th) {
+                // Throw error
+                throw $th;
 
-            // Create invoice
-            Invoice::create([
-                'name' => "Invoice INV/".Auth::user()->id."/".date('Ymd')."/".time(),
-                'user_id' => Auth::user()->id,
-                'date' => date("Y-m-d H:i:s"),
-                'status' => "pending"
-            ]);
+                // Rollback database
+                DB::rollBack();
+            }
         }
 
         // Redirect user to invoice page

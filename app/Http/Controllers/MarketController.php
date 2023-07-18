@@ -69,15 +69,11 @@ class MarketController extends Controller
         }
         else {
             // Create new order
-            $cart = new Cart;
-
-            // Set order details
-            $cart->user_id = Auth::user()->id;
-            $cart->product_id = $id;
-            $cart->quantity = 1;
-
-            // Save order
-            $cart->save();
+            Cart::create([
+                'user_id' => Auth::user()->id,
+                'product_id' => $id,
+                'quantity' => 1
+            ]);
         }
 
         // Return user back to market page
