@@ -29,7 +29,7 @@ class ShoppingCartController extends Controller
     }
 
     // Method for checking available invoice
-    static function check_invoice() {
+    private static function check_invoice() {
         // Get user id
         $user_id = Auth::user()->id;
 
@@ -47,7 +47,7 @@ class ShoppingCartController extends Controller
 
     // Method for increase quantity logic
     public function increase_quantity($id) {
-        if ($this->check_invoice()) {
+        if (self::check_invoice()) {
             return redirect('/invoice');
         }
 
@@ -104,8 +104,8 @@ class ShoppingCartController extends Controller
     }
 
     // Method for delete order logic
-    public function delete_order($id) {
-        if ($this->check_invoice()) {
+    public static function delete_order($id) {
+        if (self::check_invoice()) {
             return redirect('/invoice');
         }
 
