@@ -39,7 +39,7 @@ class RouteServiceProvider extends ServiceProvider
 
         // Rate limiter for login page
         RateLimiter::for('login', function () {
-            return Limit::perMinute(5);
+            return Limit::perMinute(1);
         });
     }
 }

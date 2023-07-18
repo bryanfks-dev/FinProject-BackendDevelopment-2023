@@ -63,7 +63,13 @@ class MarketController extends Controller
 
             $exist_cart[0]->save();
         }
-        else{
+        else {
+            // Check if product id is available
+            if (Product::find($id) === null) {
+                // Return bad request
+                return abort(400);
+            }
+
             // Create new order
             $cart = new Cart;
 
