@@ -18,7 +18,7 @@ class ShoppingCartController extends Controller
         $orders = Cart::where('user_id', 'LIKE', "%$user_id%")
                     ->latest('id')->get()
                     ->paginate(4);
-        
+
         $products = Product::all();
 
         return view('shopping_cart', [
@@ -125,7 +125,8 @@ class ShoppingCartController extends Controller
         $user_id = Auth::user()->id;
 
         // Check for existing invoice
-        $exist_invoice = Invoice::where('user_id', 'LIKE', "%$user_id%")->where('status', 'LIKE', "%pending%")->get();
+        $exist_invoice = Invoice::where('user_id', 'LIKE', "%$user_id%")
+                        ->where('status', 'LIKE', "%pending%")->get();
 
         if ($exist_invoice->isEmpty()) {
             // Get user id

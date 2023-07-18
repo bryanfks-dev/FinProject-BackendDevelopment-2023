@@ -3,7 +3,6 @@
 use Illuminate\Support\Facades\Artisan;
 
 /* Controllers path */
-use App\Http\Controllers\HomePathController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\MarketController;
 use App\Http\Controllers\RegisterController;
@@ -41,7 +40,7 @@ Route::group(['middleware' => 'guest'], function() {
     Route::group(['prefix' => 'login'], function() {
         Route::get('/', [LoginController::class, 'view'])->name('login');
 
-        Route::post('/', [LoginController::class, 'auth']);
+        Route::post('/', [LoginController::class, 'auth'])->middleware('throttle:login');
     });
 });
 
