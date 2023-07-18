@@ -59,7 +59,7 @@ class MarketController extends Controller
             // Check whenever current product stock is 0
             if (Product::find($id)->stock === 0) {
                 // Sent out of stock status
-                return redirect('/market')->with("out_of_stock", "status:out of stock");
+                return redirect('/')->with("out_of_stock", "status:out of stock");
             }
 
             // Check if current product stock not 0
