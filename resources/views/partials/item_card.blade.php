@@ -9,8 +9,10 @@
     <div class="desc">{{$product->description}}</div>
     <div class="stock-add">
         <span>Stock: {{$product->stock}}</span>
-        <a href="{{url('add', $product->id)}}">
-            <i class='bx bx-plus'></i>
-        </a>
+        @if(Auth::user() === null || (Auth::user() !== null && !Auth::user()->is_admin))
+                <a href="{{url('add', $product->id)}}">
+                    <i class='bx bx-plus'></i>
+                </a>
+        @endif
     </div>
 </div>

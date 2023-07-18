@@ -45,6 +45,9 @@
         <a href="/logout">
             <i class='bx bx-log-out'></i>
         </a>
+        <a href="/">
+            <i class='bx bxs-shopping-bags'></i>
+        </a>
         <a href="/incoming_invoice">
             <i class='bx bx-list-ul'></i>
         </a>

@@ -19,7 +19,11 @@
 <body>
     <!-- Header -->
     <header>
-        @include('partials.navbar')
+        @if(Auth::user() !== null && Auth::user()->is_admin)
+            @include('partials.admin_navbar')
+        @else
+            @include('partials.navbar')
+        @endif
     </header>
     <!-- Main -->
     <main>
