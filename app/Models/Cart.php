@@ -14,7 +14,11 @@ class Cart extends Model
      *
      * @var array<int, string>
      */
-    protected $guard = ['id'];
+    protected $fillable = [
+        'user_id',
+        'product_id',
+        'quantity'
+    ];
 
     public $timestamps = false;
 }

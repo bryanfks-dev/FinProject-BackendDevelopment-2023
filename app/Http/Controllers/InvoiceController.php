@@ -159,10 +159,10 @@ class InvoiceController extends Controller
         }
 
         // Update invoice status
-        $invoice->status = "submitted";
+        $invoice[0]->status = "submitted";
 
         // Save invoice changes
-        $invoice->save();
+        $invoice[0]->save();
 
         // Redirect user to market
         return redirect()->intended('/');

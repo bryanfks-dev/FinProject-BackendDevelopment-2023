@@ -52,7 +52,7 @@
     {{-- Check if email is error --}}
     @error('email')
         <script type="text/javascript">
-            alert("Email already exist! Please use a new one");
+            alert("Please use other email");
         </script>
     @enderror
 </body>
